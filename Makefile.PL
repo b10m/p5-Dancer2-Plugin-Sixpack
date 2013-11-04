@@ -27,4 +27,10 @@ WriteMakefile(
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Dancer2-Plugin-Sixpack-*' },
+    META_MERGE => {
+        resources => {
+            repository => 'https://github.com/b10m/p5-Dancer2-Plugin-Sixpack',
+        },
+    },
+
 );
