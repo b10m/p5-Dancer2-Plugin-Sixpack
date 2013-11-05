@@ -85,6 +85,9 @@ Examples:
 
 The client_id will be fetched from session, or generated if needed.
 
+The client's IP address and user agent string are automatically
+added to the request for bot detection.
+
 Returns the alternative name chosen.
 
 =cut
@@ -99,8 +102,15 @@ register experiment => sub {
         $alternatives = $conf->{experiments}{$name};
     }
 
+    # user info
+    my %options = ();
+       $options{ip_address} = $dsl->request->address
+           if $dsl->request->address;
+       $options{user_agent} = $dsl->request->agent
+           if $dsl->request->agent;
+
     my $alt = $sixpack
-        ->participate( $name, $alternatives );
+        ->participate( $name, $alternatives, \%options );
 
     my $experiments = $dsl->session('sixpack_experiments') || { };
        $experiments->{$name} = $alt->{alternative}{name};

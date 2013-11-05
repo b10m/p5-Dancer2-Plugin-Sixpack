@@ -23,7 +23,7 @@ WriteMakefile(
         #'ABC'              => 1.6,
         #'Foo::Bar::Module' => 5.0401,
         'Dancer2' => 0,
-        'WWW::Sixpack' => 0,
+        'WWW::Sixpack' => 0.02,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Dancer2-Plugin-Sixpack-*' },
