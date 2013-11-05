@@ -25,6 +25,7 @@ It handles the client_id transparantly through Dancer2's Session plugin.
 
 =head1 SYNOPSIS
 
+    use Dancer2;
     use Dancer2::Plugin::Sixpack;
 
     get '/route' => sub {
@@ -47,6 +48,22 @@ It handles the client_id transparantly through Dancer2's Session plugin.
 
 
 =head1 CONFIGURATION
+
+There are no mandatory settings.
+
+    plugins:
+      Sixpack:
+        host: http://localhost:5000
+        experiments:
+          decimal_dot_comma:
+            - comma
+            - dot
+          beer:
+            - duvel
+            - budweiser
+
+The experiments can be generated on the fly without defining them. See below
+for more information.
 
 =head1 KEYWORDS
 
