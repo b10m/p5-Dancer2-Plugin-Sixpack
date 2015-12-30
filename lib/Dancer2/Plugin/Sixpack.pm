@@ -4,7 +4,6 @@ use 5.006;
 use strict;
 use warnings FATAL => 'all';
 
-use Dancer2;
 use Dancer2::Plugin;
 use WWW::Sixpack;
 
@@ -106,23 +105,23 @@ register experiment => sub {
 
     # user info
     my %options = ();
-       $options{ip_address} = $dsl->request->address
-           if $dsl->request->address;
-       $options{user_agent} = $dsl->request->agent
-           if $dsl->request->agent;
+       $options{ip_address} = $dsl->app->request->address
+           if $dsl->app->request->address;
+       $options{user_agent} = $dsl->app->request->agent
+           if $dsl->app->request->agent;
 
     # force if requested
-    $options{force} = $dsl->param("sixpack-force-$name")
-        if $dsl->param("sixpack-force-$name");
+    $options{force} = $dsl->app->request->param("sixpack-force-$name")
+        if $dsl->app->request->param("sixpack-force-$name");
 
     my $alt = $sixpack
         ->participate( $name, $alternatives, \%options );
 
-    my $experiments = $dsl->session('sixpack_experiments') || { };
+    my $experiments = $dsl->app->session->read('sixpack_experiments') || { };
        $experiments->{$name} = $alt->{alternative}{name};
 
-    $dsl->session->write('sixpack_id', $alt->{client_id});
-    $dsl->session->write('sixpack_experiments', $experiments);
+    $dsl->app->session->write('sixpack_id', $alt->{client_id});
+    $dsl->app->session->write('sixpack_experiments', $experiments);
 
     return $alt->{alternative}{name};
 };
@@ -153,7 +152,7 @@ register convert => sub {
         $return{$experiment} = $res->{status};
     } else {
         # no experiments given, look them up
-        my $experiments = $dsl->session('sixpack_experiments') || { };
+        my $experiments = $dsl->app->session->read('sixpack_experiments') || { };
         for my $exp (keys %{$experiments}) {
             my $res = $sixpack->convert($exp);
             $return{$exp} = $res->{status};
@@ -175,7 +174,7 @@ sub get_sixpack {
     $conf ||= plugin_setting();
 
     my %options;
-    my $client_id = $dsl->session('sixpack_id');
+    my $client_id = $dsl->app->session->read('sixpack_id');
 
     # need to pass info on to the sixpack object?
     $options{host}      = $conf->{host} if( defined $conf->{host} );

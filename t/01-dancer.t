@@ -1,6 +1,6 @@
-use Test::More;
-
-plan tests => 6;
+use HTTP::Request::Common;
+use Plack::Test;
+use Test::More tests => 6;
 
 {
     package GreatApp;
@@ -67,27 +67,26 @@ plan tests => 6;
     };
 }
 
-use Dancer2::Test apps => [ 'GreatApp' ];
+my $test = Plack::Test->create( GreatApp->to_app );
 
- my $response = dancer_response([GET => '/with_alt_name']);
-is( $response->{content}, 'black' );
+my $res = $test->request(GET '/with_alt_name');
+is( $res->content, 'black' );
 
- my $cookie = $response->{headers}{'set-cookie'};
-    $cookie =~ s/;.*$//;
-    $ENV{HTTP_COOKIE} = $cookie;
+my $cookie = $res->{_headers}{'set-cookie'};
+$cookie =~ s/;.*$//;
 
-    $response = dancer_response(GET => '/session_id', );
-like( $response->{content}, qr/[A-Z0-9\-]{36}/ );
+$res = $test->request(GET '/session_id', Cookie => $cookie);
+like( $res->content, qr/[A-Z0-9\-]{36}/ );
 
-    $response = dancer_response([POST => '/force_session']);
-    $response = dancer_response([GET  => '/without_alt_name']);
-is( $response->{content}, 'black' );
+$res = $test->request(POST '/force_session', Cookie => $cookie);
+$res = $test->request(GET '/without_alt_name', Cookie => $cookie);
+is( $res->content, 'black' ); # yes, black, 'cause we mock the participate call :-|
 
-    $response = dancer_response(GET => '/session_id', );
-is( $response->{content}, '16D1F1FA-458D-11E3-A0C3-B218A53797BD');
+$res = $test->request(GET '/session_id', Cookie => $cookie);
+is( $res->content, '16D1F1FA-458D-11E3-A0C3-B218A53797BD');
 
-    $response = dancer_response(POST => '/convert_with_exp', );
-is( $response->{content}, 'test' );
+$res = $test->request(POST '/convert_with_exp', Cookie => $cookie);
+is( $res->content, 'test' );
 
-    $response = dancer_response(POST => '/convert_no_exp', );
-is( $response->{content}, 'successful test' );
+$res = $test->request(POST '/convert_no_exp', Cookie => $cookie);
+is( $res->content, 'successful test' );
