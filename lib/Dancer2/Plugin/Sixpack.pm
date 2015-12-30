@@ -7,7 +7,7 @@ use warnings FATAL => 'all';
 use Dancer2::Plugin;
 use WWW::Sixpack;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 my $conf;
 

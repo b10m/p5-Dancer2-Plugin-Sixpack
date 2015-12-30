@@ -103,12 +103,11 @@ Please report any bugs or feature requests to `bug-dancer2-plugin-sixpack at rt.
 the web interface at [http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Dancer2-Plugin-Sixpack](http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Dancer2-Plugin-Sixpack).  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
 
-# LICENSE AND COPYRIGHT
+# COPYRIGHT
 
-Copyright 2013 Menno Blom.
+Copyright 2014- Menno Blom
 
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
+# LICENSE
 
-See [http://dev.perl.org/licenses/](http://dev.perl.org/licenses/) for more information.
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
