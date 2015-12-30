@@ -32,8 +32,6 @@ It handles the client\_id transparantly through Dancer2's Session plugin.
         # ...
     };
 
-
-
 # CONFIGURATION
 
 There are no mandatory settings.
@@ -93,7 +91,7 @@ Returns a hashref with { 'experiment' => 'status' }
 
 ## get\_sixpack
 
-Internal method to construct the [WWW::Sixpack](http://search.cpan.org/perldoc?WWW::Sixpack) object.
+Internal method to construct the [WWW::Sixpack](https://metacpan.org/pod/WWW::Sixpack) object.
 
 # AUTHOR
 
