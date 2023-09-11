@@ -26,7 +26,6 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "Dancer2::Test" : "0",
             "Plack::Test" : "0",
             "Test::LWP::UserAgent" : "0",
             "Test::More" : "0"
